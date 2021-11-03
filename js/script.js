@@ -12,7 +12,6 @@ let container = document.querySelector('.grid-container')
 const btn = document. querySelector('.btn')
 const scelta = document.getElementById('difficoltà')
 
-
 btn.addEventListener('click' , function(){
         container.innerHTML =''
     let numeroCelle = 0
@@ -36,11 +35,23 @@ btn.addEventListener('click' , function(){
         const span = document.createElement('span')
         span.innerHTML+= number
         square.append(span)
+
         square.addEventListener('click', function(){
-            square.classList.add('clicked')
+            if(bombList.includes(number)){
+                square.classList.add('safe')
+            } else {
+                square.classList.add('bomb')
+                container.classList
+            }
         })
     }
+
+    const bombList = BombGenerator (16, numeroCelle)
+    const tentativiMax = numeroCelle - bombList.length
+    const tentativi = []
 })
+
+
 
 // Funzioni
 function DivGenerator (){
@@ -48,4 +59,24 @@ const square = document.createElement('div')
 square.classList.add('square')
 
 return square
+}
+
+function randNumGenerator( min, max,){
+    const randNum = Math.floor( Math.random()*(max - min + 1) + min)
+    return randNum
+}
+
+function BombGenerator (bombnumber, numeroCelle){
+    const bombList = []
+    while(bombList.length < bombnumber){
+     let bomb = randNumGenerator(1, numeroCelle)
+        if (!bombList.includes(bomb)){
+            bombList.push(bomb)
+        }
+    }
+    return bombList
+}
+
+function EndGame() {
+
 }

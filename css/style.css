@@ -60,9 +60,14 @@ main{
     cursor: pointer;
 }
 
-.square.clicked{
+.square.safe{
     background-color: dodgerblue;
 }
+
+.square.bomb{
+    background-color:red;
+}
+
 
 /* Footer */
 

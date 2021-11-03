@@ -12,6 +12,7 @@ let container = document.querySelector('.grid-container')
 const btn = document. querySelector('.btn')
 const scelta = document.getElementById('difficoltà')
 
+
 btn.addEventListener('click' , function(){
         container.innerHTML =''
         container.classList.remove('end-game')
@@ -29,6 +30,7 @@ btn.addEventListener('click' , function(){
         numeroCelle = 49
         numeroElementi = 7
     }
+    
     for(let i = 1; i <= numeroCelle; i++){
         const square = DivGenerator()
         container.append(square)
@@ -38,29 +40,32 @@ btn.addEventListener('click' , function(){
 
     square.addEventListener('click', function(){
         
-        for(let i = 0; i < tentativiMax; i++){
-            tentativi.push([i])
-        }
-        console.log(tentativi.lenght);
         if(!bombList.includes(number)){
             square.classList.add('safe')
-
+            tentativi.push(1)
+            if (tentativi.length === tentativiMax){
+                EndGame(tentativi, tentativiMax)
+            }
         } else {
             square.classList.add('bomb')
             container.classList.add('end-game')
-            const squares = document.querySelectorAll('.square')
 
-            for(let i = 0; i <= squares.length; i++)
-                if (bombList.includes(parseInt(squares[i].innerText))) {
+            const squares = document.querySelectorAll('.square')
+            console.log();
+            EndGame(tentativi, tentativiMax)
+
+            for(let i = 0; i <= squares.length; i++){
+                if (bombList.includes(parseInt(squares[i].innerHTML))){
                     squares[i].classList.add('bomb')
                 }
+            }   
         }
     })
 }
-
     const bombList = BombGenerator (16, numeroCelle)
     const tentativiMax = numeroCelle - bombList.length
     const tentativi = []
+    console.log(bombList);
 })
 
 
@@ -89,14 +94,13 @@ function BombGenerator (bombnumber, numeroCelle){
     return bombList
 }
 
-function EndGame() {
-    if (tentativi.lenght === tentativiMax){
-        finegioco = document.createElement('div')
-        vittoria.innerHTML = `Complimenti, hai eseguito ${tentativi.length} e hai vinto! Gioca ancora`
+function EndGame(tentativi, tentativiMax) {
+        const finegioco = document.createElement('div')
+    if (tentativi.length === tentativiMax){
+        finegioco.innerHTML = `Complimenti, hai eseguito ${tentativi.length} tentativi e hai vinto! Gioca ancora`
         container.append(finegioco)
     } else {
-        finegioco = document.createElement('div')
-        finegioco.innerHTML = `Peccato, hai eseguito ${tentativi.length} e hai trovato una bomba! Gioca ancora`
+        finegioco.innerHTML = `Peccato, hai eseguito ${tentativi.length} tentativi e hai trovato una bomba! Gioca ancora`
         container.append(finegioco)
     }
     return finegioco

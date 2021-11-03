@@ -36,6 +36,7 @@ btn.addEventListener('click' , function(){
     const bombList = BombGenerator (16, numeroCelle)
     const tentativiMax = numeroCelle - bombList.length
     const tentativi = []
+    console.log(bombList);
 
     // Generazione Square 
     for(let i = 1; i <= numeroCelle; i++){
@@ -58,6 +59,7 @@ btn.addEventListener('click' , function(){
                 }
                 if (tentativi.length === tentativiMax){
                     EndGame(tentativi, tentativiMax)
+                    container.classList.add('end-game')
                 }
             } else {
                 square.classList.add('bomb')

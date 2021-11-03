@@ -54,7 +54,7 @@ btn.addEventListener('click' , function(){
             console.log();
             EndGame(tentativi, tentativiMax)
 
-            for(let i = 0; i <= squares.length; i++){
+            for(let i = 0; i < squares.length; i++){
                 if (bombList.includes(parseInt(squares[i].innerHTML))){
                     squares[i].classList.add('bomb')
                 }

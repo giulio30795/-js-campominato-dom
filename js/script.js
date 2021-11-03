@@ -42,6 +42,8 @@ btn.addEventListener('click' , function(){
         const square = DivGenerator()
         container.append(square)
         square.style.width=`calc(100% / ${numeroElementi})`
+        square.style.height=`calc(100% / ${numeroElementi})`
+
         const number = i
         square.append(number)
 
@@ -104,6 +106,7 @@ function BombGenerator (bombnumber, numeroCelle){
 
 function EndGame(tentativi, tentativiMax) {
     const finegioco = document.createElement('div')
+    finegioco.classList.add('message')
     if (tentativi.length === tentativiMax){
         finegioco.innerHTML = `Complimenti, hai eseguito ${tentativi.length} tentativi e hai vinto! Gioca ancora`
         container.append(finegioco)

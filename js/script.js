@@ -9,7 +9,7 @@
 // Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
 
 let container = document.querySelector('.grid-container')
-const btn = document. querySelector('.btn')
+const btn = document.querySelector('.btn')
 const scelta = document.getElementById('difficoltà')
 
 
@@ -19,7 +19,6 @@ btn.addEventListener('click' , function(){
     container.classList.remove('end-game')
 
     // definizione griglia
-
     let numeroCelle = 0
     let numeroElementi = 0
     if (scelta.value == 'facile'){
@@ -32,6 +31,12 @@ btn.addEventListener('click' , function(){
         numeroCelle = 49
         numeroElementi = 7
     }
+
+        // Definizione Bombs e tentativi
+    const bombList = BombGenerator (16, numeroCelle)
+    const tentativiMax = numeroCelle - bombList.length
+    const tentativi = []
+
     // Generazione Square 
     for(let i = 1; i <= numeroCelle; i++){
         const square = DivGenerator()
@@ -46,7 +51,9 @@ btn.addEventListener('click' , function(){
 
             if(!bombList.includes(number)){
                 square.classList.add('safe')
-                tentativi.push(1)
+                if(!tentativi.includes(number)){
+                    tentativi.push(number)
+                }
                 if (tentativi.length === tentativiMax){
                     EndGame(tentativi, tentativiMax)
                 }
@@ -66,10 +73,7 @@ btn.addEventListener('click' , function(){
             }
         })
     }
-    // Definizione Bombs e tentativi
-    const bombList = BombGenerator (16, numeroCelle)
-    const tentativiMax = numeroCelle - bombList.length
-    const tentativi = []
+
 
 })
 

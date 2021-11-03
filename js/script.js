@@ -15,6 +15,7 @@ const scelta = document.getElementById('difficoltà')
 btn.addEventListener('click' , function(){
         container.innerHTML =''
         container.classList.remove('end-game')
+
     let numeroCelle = 0
     let numeroElementi = 0
     if (scelta.value == 'facile'){
@@ -35,21 +36,27 @@ btn.addEventListener('click' , function(){
         let number = i
         square.append(number)
 
-        square.addEventListener('click', function(){
-            if(!bombList.includes(number)){
-                square.classList.add('safe')
-            } else {
-                square.classList.add('bomb')
-                container.classList.add('end-game')
-                const squares = document.querySelectorAll('.square')
+    square.addEventListener('click', function(){
+        
+        for(let i = 0; i < tentativiMax; i++){
+            tentativi.push([i])
+        }
+        console.log(tentativi.lenght);
+        if(!bombList.includes(number)){
+            square.classList.add('safe')
 
-                for(let i = 0; i <= squares.length; i++)
-                    if (bombList.includes(parseInt(squares[i].innerHTML))) {
-                        squares[i].classList.add('bomb')
-                    }
-            }
-        })
-    }
+        } else {
+            square.classList.add('bomb')
+            container.classList.add('end-game')
+            const squares = document.querySelectorAll('.square')
+
+            for(let i = 0; i <= squares.length; i++)
+                if (bombList.includes(parseInt(squares[i].innerText))) {
+                    squares[i].classList.add('bomb')
+                }
+        }
+    })
+}
 
     const bombList = BombGenerator (16, numeroCelle)
     const tentativiMax = numeroCelle - bombList.length
@@ -82,9 +89,16 @@ function BombGenerator (bombnumber, numeroCelle){
     return bombList
 }
 
-// function EndGame() {
-//     vittoria = document.createElement('div')
-//     vittoria.innerHTML = `Complimenti, hai eseguito ${tentativi.length} e hai vinto! Gioca ancora`
+function EndGame() {
+    if (tentativi.lenght === tentativiMax){
+        finegioco = document.createElement('div')
+        vittoria.innerHTML = `Complimenti, hai eseguito ${tentativi.length} e hai vinto! Gioca ancora`
+        container.append(finegioco)
+    } else {
+        finegioco = document.createElement('div')
+        finegioco.innerHTML = `Peccato, hai eseguito ${tentativi.length} e hai trovato una bomba! Gioca ancora`
+        container.append(finegioco)
+    }
+    return finegioco
+    }
 
-//     }
-// }

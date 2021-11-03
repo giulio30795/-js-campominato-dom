@@ -14,6 +14,7 @@ const scelta = document.getElementById('difficoltà')
 
 btn.addEventListener('click' , function(){
         container.innerHTML =''
+        container.classList.remove('end-game')
     let numeroCelle = 0
     let numeroElementi = 0
     if (scelta.value == 'facile'){
@@ -32,16 +33,20 @@ btn.addEventListener('click' , function(){
         container.append(square)
         square.style.width=`calc(100% / ${numeroElementi})`
         let number = i
-        const span = document.createElement('span')
-        span.innerHTML+= number
-        square.append(span)
+        square.append(number)
 
         square.addEventListener('click', function(){
-            if(bombList.includes(number)){
+            if(!bombList.includes(number)){
                 square.classList.add('safe')
             } else {
                 square.classList.add('bomb')
-                container.classList
+                container.classList.add('end-game')
+                const squares = document.querySelectorAll('.square')
+
+                for(let i = 0; i <= squares.length; i++)
+                    if (bombList.includes(parseInt(squares[i].innerHTML))) {
+                        squares[i].classList.add('bomb')
+                    }
             }
         })
     }
@@ -77,6 +82,9 @@ function BombGenerator (bombnumber, numeroCelle){
     return bombList
 }
 
-function EndGame() {
+// function EndGame() {
+//     vittoria = document.createElement('div')
+//     vittoria.innerHTML = `Complimenti, hai eseguito ${tentativi.length} e hai vinto! Gioca ancora`
 
-}
+//     }
+// }

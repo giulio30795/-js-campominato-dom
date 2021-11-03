@@ -14,79 +14,83 @@ const scelta = document.getElementById('difficoltà')
 
 
 btn.addEventListener('click' , function(){
-        container.innerHTML =''
-        container.classList.remove('end-game')
+    // Reset container
+    container.innerHTML =''
+    container.classList.remove('end-game')
+
+    // definizione griglia
 
     let numeroCelle = 0
     let numeroElementi = 0
     if (scelta.value == 'facile'){
         numeroCelle = 100
         numeroElementi = 10
-    } else if 
-        (scelta.value == 'medio'){
+    } else if (scelta.value == 'medio'){
         numeroCelle = 81
         numeroElementi = 9
-    }else if (scelta.value == 'difficile') {
+    } else if (scelta.value == 'difficile') {
         numeroCelle = 49
         numeroElementi = 7
     }
-    
+    // Generazione Square 
     for(let i = 1; i <= numeroCelle; i++){
         const square = DivGenerator()
         container.append(square)
         square.style.width=`calc(100% / ${numeroElementi})`
-        let number = i
+        const number = i
         square.append(number)
 
-    square.addEventListener('click', function(){
-        
-        if(!bombList.includes(number)){
-            square.classList.add('safe')
-            tentativi.push(1)
-            if (tentativi.length === tentativiMax){
-                EndGame(tentativi, tentativiMax)
-            }
-        } else {
-            square.classList.add('bomb')
-            container.classList.add('end-game')
+        square.addEventListener('click', function(){
 
-            const squares = document.querySelectorAll('.square')
-            console.log();
-            EndGame(tentativi, tentativiMax)
+        // Definizione safe or bomb
 
-            for(let i = 0; i < squares.length; i++){
-                if (bombList.includes(parseInt(squares[i].innerHTML))){
-                    squares[i].classList.add('bomb')
+            if(!bombList.includes(number)){
+                square.classList.add('safe')
+                tentativi.push(1)
+                if (tentativi.length === tentativiMax){
+                    EndGame(tentativi, tentativiMax)
                 }
-            }   
-        }
-    })
-}
+            } else {
+                square.classList.add('bomb')
+                container.classList.add('end-game')
+
+                const squares = document.querySelectorAll('.square')
+                console.log();
+                EndGame(tentativi, tentativiMax)
+
+                for(let i = 0; i < squares.length; i++){
+                    if (bombList.includes(parseInt(squares[i].innerHTML))){
+                        squares[i].classList.add('bomb')
+                    }
+                }   
+            }
+        })
+    }
+    // Definizione Bombs e tentativi
     const bombList = BombGenerator (16, numeroCelle)
     const tentativiMax = numeroCelle - bombList.length
     const tentativi = []
-    console.log(bombList);
-})
 
+})
 
 
 // Funzioni
 function DivGenerator (){
-const square = document.createElement('div')
-square.classList.add('square')
+    const square = document.createElement('div')
+    square.classList.add('square')
 
-return square
+    return square
 }
 
-function randNumGenerator( min, max,){
-    const randNum = Math.floor( Math.random()*(max - min + 1) + min)
+function randNumGenerator(min, max){
+    const randNum = Math.floor(Math.random()*(max - min + 1) + min)
     return randNum
 }
 
 function BombGenerator (bombnumber, numeroCelle){
     const bombList = []
     while(bombList.length < bombnumber){
-     let bomb = randNumGenerator(1, numeroCelle)
+        let bomb = randNumGenerator(1, numeroCelle)
         if (!bombList.includes(bomb)){
             bombList.push(bomb)
         }
@@ -95,7 +99,7 @@ function BombGenerator (bombnumber, numeroCelle){
 }
 
 function EndGame(tentativi, tentativiMax) {
-        const finegioco = document.createElement('div')
+    const finegioco = document.createElement('div')
     if (tentativi.length === tentativiMax){
         finegioco.innerHTML = `Complimenti, hai eseguito ${tentativi.length} tentativi e hai vinto! Gioca ancora`
         container.append(finegioco)
@@ -104,5 +108,5 @@ function EndGame(tentativi, tentativiMax) {
         container.append(finegioco)
     }
     return finegioco
-    }
+}
 
